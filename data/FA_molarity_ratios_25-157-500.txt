@@ -1,0 +1,29 @@
+name	ratio	Extraction	Buffer	Sediment
+400	1.231997186457250000	Magnetic Beads	Rohland	N-PAC
+401	1.611327106795380000	Magnetic Beads	Rohland	MID-PAC
+402	0.251769017629461000	Magnetic Beads	Rohland	BS-SAP
+403	3.670215396542160000	Magnetic Beads	Rohland	BS-LAC
+404	0.982412347896526000	Magnetic Beads	Rohland	SG-CLY
+405	0.784945394762595000	Precipitation	Rohland	N-PAC
+406	1.706987458916280000	Precipitation	Rohland	MID-PAC
+407	1.546946825232060000	Precipitation	Rohland	BS-SAP
+408	1.178881709536630000	Precipitation	Rohland	BS-LAC
+409	0.987202414217056000	Precipitation	Rohland	SG-CLY
+410	0.010521529847242600	Magnetic Beads	Rohland	Extraction Blank
+411	0.160868511271947000	Precipitation	Rohland	Extraction Blank
+412	3.154273767364180000	Magnetic Beads	Direito	N-PAC
+413	2.741499407561670000	Magnetic Beads	Direito	MID-PAC
+414	2.192784417884020000	Magnetic Beads	Direito	BS-SAP
+415	0.652152148412693000	Magnetic Beads	Direito	BS-LAC
+416	1.154126830979740000	Magnetic Beads	Direito	SG-CLY
+417	0.683496233360253000	Precipitation	Direito	N-PAC
+418	0.605282253858399000	Precipitation	Direito	MID-PAC
+419	0.035401508135996800	Precipitation	Direito	BS-SAP
+420	0.054532312224936600	Precipitation	Direito	BS-LAC
+421	0.054378859786875200	Precipitation	Direito	SG-CLY
+422	0.024680794503933500	Magnetic Beads	Direito	Extraction Blank
+423	0.151253736806784000	Precipitation	Direito	Extraction Blank
+Lib_blank_1(1-12)	0.006499274955256250	Blank	Blank	Library Blank
+Lib_blank_1(13-24)	0.047730483473955000	Blank	Blank	Library Blank
+Lib_blank_2(1-12)	0.009176444295452010	Blank	Blank	Library Blank
+Lib_blank_2(13-24)	0.030586568816220800	Blank	Blank	Library Blank
