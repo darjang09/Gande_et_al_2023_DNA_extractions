@@ -1,8 +1,8 @@
 Buffer	Extraction	Label	Replicate	Value
-Input_DNA	Magnetic_Beads	N	1	4000
-Input_DNA	Magnetic_Beads	N	2	4000
-Input_DNA	Magnetic_Beads	N	3	4000
-Input_DNA	Magnetic_Beads	N	4	4000
+Input_DNA	Magnetic_Beads	N	1	2000
+Input_DNA	Magnetic_Beads	N	2	2000
+Input_DNA	Magnetic_Beads	N	3	2000
+Input_DNA	Magnetic_Beads	N	4	2000
 MAG	Magnetic_Beads	C9	1	1545.47
 MAG	Magnetic_Beads	C10	2	1777.68
 MAG	Magnetic_Beads	C11	3	1262.93
@@ -15,10 +15,10 @@ ASW_24_AMICON_MAG	Magnetic_Beads	C1	1	1214.13
 ASW_24_AMICON_MAG	Magnetic_Beads	C2	2	1001.79
 ASW_24_AMICON_MAG	Magnetic_Beads	C3	3	750.58
 ASW_24_AMICON_MAG	Magnetic_Beads	C4	4	812.59
-Input_DNA	Precipitation	N	1	4000
-Input_DNA	Precipitation	N	2	4000
-Input_DNA	Precipitation	N	3	4000
-Input_DNA	Precipitation	N	4	4000
+Input_DNA	Precipitation	N	1	2000
+Input_DNA	Precipitation	N	2	2000
+Input_DNA	Precipitation	N	3	2000
+Input_DNA	Precipitation	N	4	2000
 PRECIP	Precipitation	P13	1	1187.6
 PRECIP	Precipitation	P14	2	1507.37
 PRECIP	Precipitation	P15	3	1429.97
