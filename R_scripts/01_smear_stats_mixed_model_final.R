@@ -143,7 +143,7 @@ plot
 
 # Custom-defined text for each panel
 panel_text <- data.frame(Range = c("157-177 bp", "177-202 bp", "202-227 bp", "227-277 bp", "277-327 bp", "327-427 bp"),
-    label = c("p-value < 0.01", "ns", "ns", "p-value < 0.01", "p-value < 0.01", "p-value = 0.0133"))
+    label = c("p < 0.01", "ns", "ns", "p < 0.01", "p < 0.01", "p = 0.0133"))
 
 
 plot + geom_text(data = panel_text, aes(x = 1.5, y = 0.7, label = label), vjust = 1.5, hjust = 0.5, inherit.aes = FALSE)
