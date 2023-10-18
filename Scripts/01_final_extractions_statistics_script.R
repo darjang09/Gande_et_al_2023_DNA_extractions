@@ -1,4 +1,4 @@
-## This is the script for statistical analysis of mineral-DNA extraction data
+## This is the script for statistical analysis of mineral-DNA extraction data and plotting of Figure 1
 
 ## Load packages
 
