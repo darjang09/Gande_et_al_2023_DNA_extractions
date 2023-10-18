@@ -1,4 +1,6 @@
-## This script was used for in depth statistical analysis of fragment analyzer data and additional plotting (Figure 4 and Figure S6)
+## This script was used for in depth statistical analysis of fragment analyzer data and additional plotting of Figure 4 and Figure S6
+
+## Load libraries
 
 library("data.table")
 library("ggplot2")
@@ -16,20 +18,14 @@ library("emmeans")
 library("ggpubr")
 
 # Import the data
-df <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/smear_percentage_and_absolute.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
+df <- read.table("smear_percentage_and_absolute.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
 
 # Drop failed samples
 dropped <- c('405', '419', '420', '421')
 df <- subset(df, !Sample_ID %in% dropped)
 
-## Mixed linear model here gives us the option to use sediment_ID as a random effect (pseudoreplication) as we do not have
-## enough observations in a single sediment cluster. We thus use it as a random effect to increase observations for
-## statistical comparison between the buffers while we disregard the method!
-## Disregarding the method however, undermines the potential true effect of the method.
-## However, building the model with breaking down the data on buffer and method causes too few observations for certain clusters
-
 ################################################################################
-###################### TESTING WITH RELATIVE VALUES ############################
+############# Linear Mixed Effects Models With Relative Values #################
 
 ### We first subset the data per range and test each range separately
 
@@ -154,7 +150,7 @@ p1 <- p1 + geom_text(data = panel_text, aes(x = 1.5, y = 0.7, label = label), vj
 
 p1
 ################################################################################
-###################### TESTING WITH ABSOLUTE VALUES ############################
+############# Linear Mixed Effects Models With Absolute Values #################
 
 ### Build model 1
 
