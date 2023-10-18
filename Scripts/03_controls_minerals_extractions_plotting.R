@@ -1,4 +1,4 @@
-## Script for plotting Supplementary figure S2 - testing isolation methods without mineral component
+## Script for plotting Supplementary Figure S2 - testing isolation methods without mineral component
 
 ## Load packages
 
