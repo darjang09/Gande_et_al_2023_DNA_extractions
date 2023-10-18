@@ -12,7 +12,7 @@ library(dplyr)
 
 # Import the data
 
-df <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/data_for_stats_minerals_FINAL.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
+df <- read.table("data_for_stats_minerals_FINAL.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
 
 # Inspect the data
 
@@ -22,73 +22,9 @@ boxplot(Value ~ Buffer, data = df, las = 2, xlab = "")
 
 hist(df$Value)
 
-# We see that our data has non-normal distribution (even when values are transformed to log) which makes it hard for ANOVA
-# to be reliable (not shown in this script) thus we continue with non-parametric test.
-
-#______________________________________________________________________________#
-
-########################### OUTLIER DETECTION ##################################
-
-## Here we use Dixon test to identify potential outliers that would have a big impact on our data
-
-# # Overview
-# df$group <- as.factor(paste(df$Buffer, df$Extraction, df$Mineral, sep="_"))
-# table(df$group)
-# 
-# ### TEST ###
-# 
-# dixon.test(df[df$group == "PowerSoil_Precipitation_Bentonite",]$Value, opposite = F)  #p < 0.05, most extreme value is an outlier
-
-#the test takes the most extreme value into account and not the highest.
-#With option opposite=F you specifiy the opposite of what it chooses by default
-
-# If there is an outlier, remove it and test again
-#v <- df[df$group == "PowerSoil_Precipitation_Bentonite",]$Value
-#v <- v[v != max(v)]                                                            #in both cases our outlier was highest value
-#dixon.test(v)
-
-### RESULTS ###
-
-#Rohland_Magnetic_Beads_Bentonite - p-value = 0.7064
-#Rohland_Magnetic_Beads_Sand - p-value = 0.5237
-#Rohland_Magnetic_Beads_Kaolin - p-value = 0.9795
-#Rohland_Precipitation_Bentonite - p-value = 0.9208
-#Rohland_Precipitation_Sand - p-value = 0.6552
-#Rohland_Precipitation_Kaolin - p-value = 0.4766
-#PowerSoil_Magnetic_Beads_Bentonite - p-value = 0.01189 ........................<- -max = p-value = 0.1384
-#PowerSoil_Magnetic_Beads_Sand - p-value = 0.2025
-#PowerSoil_Magnetic_Beads_Kaolin - cannot be calculated = 0
-#PowerSoil_Precipitation_Bentonite - p-value = 0.01615 .........................<- -max = p-value = 0.1686
-#PowerSoil_Precipitation_Sand - p-value = 0.3158
-#PowerSoil_Precipitation_Kaolin - p-value = 0.7836
-#Pedersen_Magnetic_Beads_Bentonite - p-value = 0.279
-#Pedersen_Magnetic_Beads_Sand - p-value = 0.556
-#Pedersen_Magnetic_Beads_Kaolin - p-value = 0.9179
-#Pedersen_Precipitation_Bentonite - p-value = 0.1548
-#Pedersen_Precipitation_Sand - p-value = 0.2841
-#Pedersen_Precipitation_Kaolin - p-value = 0.3158
-#Lever_Magnetic_Beads_Bentonite - cannot be calculated = 0
-#Lever_Magnetic_Beads_Sand - p-value = 0.3184
-#Lever_Magnetic_Beads_Kaolin - p-value = 0.4174
-#Lever_Precipitation_Bentonite - p-value = 0.5299
-#Lever_Precipitation_Sand - p-value = 0.1336
-#Lever_Precipitation_Kaolin - p-value = 0.7395
-#Direito_Magnetic_Beads_Bentonite -  p-value = 0.9825
-#Direito_Magnetic_Beads_Sand - p-value = 0.1129
-#Direito_Magnetic_Beads_Kaolin - p-value = 0.9172
-#Direito_Precipitation_Bentonite - p-value = 0.8398
-#Direito_Precipitation_Sand - p-value = 0.6432
-#Direito_Precipitation_Kaolin - p-value = 0.1537
-
-#______________________________________________________________________________#
-# We can choose to remove or keep the two outliers in the data table before proceeding
-
-#df <- df[-c(27,42),]
-
 ############################### STATISTICS #####################################
 ################################################################################
 
-# We continue without removing outliers
 
 ########################## Scheirer–Ray–Hare Test ##############################
 ########################## non-parametric analysis #############################
@@ -115,7 +51,6 @@ kao <- df[df$Mineral == 'Kaolin', ]
 
 scheirerRayHare(Value ~ Buffer*Extraction, data = ben, type = 2)
 
-# WITH OUTLIERS (new data 7/7/23)
 # DV:  Value 
 # Observations:  44 
 # D:  0.9997181 
@@ -133,7 +68,6 @@ ggplot(ben, aes(Buffer, Value, fill=Extraction)) + geom_boxplot() + theme_bw()
 
 scheirerRayHare(Value ~ Buffer*Extraction, data = kao, type = 2)
 
-# WITH OUTLIERS (new data 7/7/23)
 # DV:  Value 
 # Observations:  50 
 # D:  0.9920768 
@@ -151,7 +85,6 @@ ggplot(kao, aes(Buffer, Value, fill=Extraction)) + geom_boxplot() + theme_bw()
 
 scheirerRayHare(Value ~ Buffer*Extraction, data = san, type = 2)
 
-# WITH OUTLIERS (new data 7/7/23)
 # DV:  Value 
 # Observations:  51 
 # D:  1 
@@ -165,8 +98,6 @@ scheirerRayHare(Value ~ Buffer*Extraction, data = san, type = 2)
 
 ggplot(san, aes(Buffer, Value, fill=Extraction)) + geom_boxplot() + theme_bw()
 
-#______________________________________________________________________________#
-
 ### we see that there a significant effect of buffer for all three minerals and no effect of extraction type
 ### we can therefore follow up with a post-hoc test for the buffer
 
@@ -175,7 +106,7 @@ ggplot(san, aes(Buffer, Value, fill=Extraction)) + geom_boxplot() + theme_bw()
 
 #____DUNN-TEST-BENTONITE_______________________________________________________#
 
-## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically)
+## Order groups by median (here we use letters for buffers (see df) as R otherwise orders them alphabetically)
 
 ben$Buffer = factor(ben$Buffer,
                     levels=c("A", "B", "C", "D","E"))
@@ -197,7 +128,6 @@ cldList(P.adj ~ Comparison,
         data = pt,
         threshold = 0.05)
 
-# WITH OUTLIERS - ordered
 # Group Letter MonoLetter
 # 1     A      a        a  
 # 2     B      a        a  
@@ -207,7 +137,7 @@ cldList(P.adj ~ Comparison,
 
 #____DUNN-TEST-KAOLIN__________________________________________________________#
 
-## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically)
+## Order groups by median (here we use letters for buffers (see df) as R otherwise orders them alphabetically)
 
 kao$Buffer = factor(kao$Buffer,
                     levels=c("A", "B", "C", "D","E"))
@@ -229,7 +159,6 @@ cldList(P.adj ~ Comparison,
         data = pt,
         threshold = 0.05)
 
-# ordered 
 # Group Letter MonoLetter
 # 1     A     ab        ab 
 # 2     B      a        a  
@@ -239,7 +168,7 @@ cldList(P.adj ~ Comparison,
 
 #____DUNN-TEST-SAND____________________________________________________________#
 
-## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically)
+## Order groups by median (here we use letters for buffers as R (see df) otherwise orders them alphabetically)
 
 san$Buffer = factor(san$Buffer,
                     levels=c("A", "B", "C", "D","E"))
@@ -261,7 +190,6 @@ cldList(P.adj ~ Comparison,
         data = pt,
         threshold = 0.05)
 
-# ordered
 # Group Letter MonoLetter
 # 1     A     ab         ab
 # 2     B     abc         abc
@@ -276,11 +204,10 @@ cldList(P.adj ~ Comparison,
 
 ben$Name <- factor(ben$Name, levels=c("Rohland", "Direito", "PowerSoil", "Pedersen", "Lever"))
 
-# assign labels according to compact letter display!
+# assign labels according to compact letter display - here we now use buffer names instead of letters!
 
 test_ben <- data.frame(Name=as.factor(c("Rohland", "Direito", "PowerSoil", "Pedersen", "Lever")), 
                        labels=c("a", "a", "ab", "bc", "c"))
-
 
 p1 <- ggplot(ben, aes(Name, Value)) +
   geom_boxplot(position=position_dodge(0.8), outlier.alpha = 0, show.legend = FALSE) +
@@ -309,11 +236,10 @@ p1 <- p1 + xlab("Buffer") + guides(color = guide_legend(title = "Isolation appro
 
 kao$Name <- factor(kao$Name, levels=c("Rohland", "Direito", "PowerSoil", "Pedersen", "Lever"))
 
-# assign labels according to compact letter display!
+# assign labels according to compact letter display! - here we now use buffer names instead of letters!
 
 test_kao <- data.frame(Name=as.factor(c("Rohland", "Direito", "PowerSoil", "Pedersen", "Lever")), 
                        labels=c("ab", "a", "c", "bc", "c"))
-
 
 p2 <- ggplot(kao, aes(Name, Value)) +
   geom_boxplot(position=position_dodge(0.8), outlier.alpha = 0, show.legend = FALSE) +
@@ -342,11 +268,10 @@ p2 <- p2 + xlab("Buffer") + guides(color = guide_legend(title = "Isolation appro
 
 san$Name <- factor(san$Name, levels=c("Rohland", "Direito", "PowerSoil", "Pedersen", "Lever"))
 
-# assign labels according to compact letter display!
+# assign labels according to compact letter display! - here we now use buffer names instead of letters!
 
 test_san <- data.frame(Name=as.factor(c("Rohland", "Direito", "PowerSoil", "Pedersen", "Lever")), 
                        labels=c("ab", "abc", "c", "a", "bc"))
-
 
 p3 <- ggplot(san, aes(Name, Value)) +
   geom_boxplot(position=position_dodge(0.8), outlier.alpha = 0, show.legend = FALSE) +
