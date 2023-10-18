@@ -15,7 +15,7 @@ library(scales)
 library(graphics)
 
 ## Load the data
-df <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/merged_smear_April23.csv", sep=";", header=T, stringsAsFactors = T, check.names = FALSE)
+df <- read.table("merged_smear_April23.csv", sep=";", header=T, stringsAsFactors = T, check.names = FALSE)
 
 ## Rename range names
 df <- df %>% mutate(Range = gsub(" bp to ", "-", Range))
@@ -24,19 +24,17 @@ df <- df %>% mutate(Range = gsub(" bp to ", "-", Range))
 
 ### Subset columns
 df <- df %>% select(`Sample ID`, Range, `nmole/L`) # for molarity
-#df <- df %>% select(`Sample ID`, Range, `ng/uL`) # if interested also for concentrations
 
 ### Melt the table
 data.perc <- reshape(df, idvar = "Range", timevar = "Sample ID", direction = "wide")
 data.perc <- data.perc %>% remove_rownames %>% column_to_rownames(var="Range")
 
-## Here we exclude 25-157 bp and 157-500 bp from the data since we don´t need it in this analysis
+## Here we exclude 25-157 bp and 157-500 bp from the data since we don´t need it in this analysis (was used for manual ratio concentrations)
 data.perc <- data.perc[row.names(data.perc) != "25-157 bp", , drop = FALSE]
 data.perc <- data.perc[row.names(data.perc) != "157-500 bp", , drop = FALSE]
 
 ## Trim names
 names(data.perc) = gsub(pattern = "*nmole/L.", replacement = "", x = names(data.perc)) # for molarity
-#names(data.perc) = gsub(pattern = "*ng/uL.", replacement = "", x = names(data.perc)) # if interested also for concentrations
 
 ## Transform values back to numerical
 data.perc <- mutate_all(data.perc, function(x) as.numeric(as.character(x)))
@@ -50,9 +48,9 @@ data.perc[is.nan(data.perc)] <- 0
 data.absolute <- as.matrix(data.perc)
 data.absolute <- melt(data.absolute, id.vars=c("bracket"))
 
-### FINALLY we transform everything into a percentage
+## Finally we transform everything into a percentage
 data.perc <- apply(data.perc, 2, function(x){x/sum(x)})
-colSums(data.perc) # check if all values are 1!
+colSums(data.perc)                                             # check if all values are 1!
 data.perc <- melt(data.perc, id.vars=c("bracket"))
 
 ##### Define sediment type list for faceting the barplots later
@@ -69,7 +67,7 @@ sedlist <- list(
 
 ##################### Plotting percentage molarity brackets ####################
 
-## define color blind friendly pallete
+## Define color blind friendly pallete
 
 cols <- palette(hcl.colors(6, "heat"))
 
@@ -151,11 +149,10 @@ p2 <- ggplot(data.absolute, aes(x=factor(Var2, level = level_order), y=value, fi
   facet_grid(. ~ factor(Sediment, level = sedlevel),  scales = "free", space = "free")
 
 p2
-#########################################################################################
 
 ############################ PLOTTING THE RATIO #########################################
 
-ratio <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/FA_molarity_ratios_25-157-500.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
+ratio <- read.table("FA_molarity_ratios_25-157-500.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
 
 ## facet them per sediment type
 
