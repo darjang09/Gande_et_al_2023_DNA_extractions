@@ -1,4 +1,4 @@
-## Script for plotting Supplementary Figure S2 - testing isolation methods
+## Script for plotting Supplementary Figure S2 - testing isolation methods without mineral component
 
 ## Load libraries
 library(data.table)
@@ -13,12 +13,12 @@ library(plyr)
 library(patchwork)
 
 # Import the data
-df <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/data_for_stats_controls_FINAL.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
+df <- read.table("data_for_stats_controls_FINAL.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
 
-## Process
+## Parse the data and calculate mean and SD/SE values
 agg=aggregate(Value~Buffer*Extraction, data=df, FUN="mean") #mean
 agg$sd=aggregate(Value~Buffer*Extraction, data=df, FUN="sd")$Value #add the SD
-agg$se <- with(agg, sd/2) #add the standard error (SD/2) #2 bc we have a root of 4 samples
+agg$se <- with(agg, sd/2) #add the standard error (SD/2)
 
 df.plot <- agg
 
@@ -67,5 +67,4 @@ ggplot(df.plot, aes(Buffer, Value)) +
         plot.title = element_text(size = 14),
         strip.background = element_blank(), strip.text = element_text(size = 12, margin = margin(2, 0, 2, 0)))
 
-#table <- round(agg$sd, 2)
 
