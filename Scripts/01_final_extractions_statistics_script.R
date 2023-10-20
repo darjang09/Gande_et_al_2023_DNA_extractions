@@ -1,7 +1,6 @@
 ## This is the script for statistical analysis of mineral-DNA extraction data and plotting of Figure 1
 
-## Load packages
-
+## Load libraries
 library(data.table)
 library(ggplot2)
 library(outliers)
@@ -11,8 +10,7 @@ library(FSA)
 library(dplyr)
 
 # Import the data
-
-df <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/data_for_stats_minerals_FINAL.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
+df <- read.table("data_for_stats_minerals_FINAL.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
 
 # Inspect the data
 
@@ -22,73 +20,7 @@ boxplot(Value ~ Buffer, data = df, las = 2, xlab = "")
 
 hist(df$Value)
 
-# We see that our data has non-normal distribution (even when values are transformed to log) which makes it hard for ANOVA
-# to be reliable (not shown in this script) thus we continue with non-parametric test.
-
-#______________________________________________________________________________#
-
-########################### OUTLIER DETECTION ##################################
-
-## Here we use Dixon test to identify potential outliers that would have a big impact on our data
-
-# # Overview
-# df$group <- as.factor(paste(df$Buffer, df$Extraction, df$Mineral, sep="_"))
-# table(df$group)
-# 
-# ### TEST ###
-# 
-# dixon.test(df[df$group == "PowerSoil_Precipitation_Bentonite",]$Value, opposite = F)  #p < 0.05, most extreme value is an outlier
-
-#the test takes the most extreme value into account and not the highest.
-#With option opposite=F you specifiy the opposite of what it chooses by default
-
-# If there is an outlier, remove it and test again
-#v <- df[df$group == "PowerSoil_Precipitation_Bentonite",]$Value
-#v <- v[v != max(v)]                                                            #in both cases our outlier was highest value
-#dixon.test(v)
-
-### RESULTS ###
-
-#Rohland_Magnetic_Beads_Bentonite - p-value = 0.7064
-#Rohland_Magnetic_Beads_Sand - p-value = 0.5237
-#Rohland_Magnetic_Beads_Kaolin - p-value = 0.9795
-#Rohland_Precipitation_Bentonite - p-value = 0.9208
-#Rohland_Precipitation_Sand - p-value = 0.6552
-#Rohland_Precipitation_Kaolin - p-value = 0.4766
-#PowerSoil_Magnetic_Beads_Bentonite - p-value = 0.01189 ........................<- -max = p-value = 0.1384
-#PowerSoil_Magnetic_Beads_Sand - p-value = 0.2025
-#PowerSoil_Magnetic_Beads_Kaolin - cannot be calculated = 0
-#PowerSoil_Precipitation_Bentonite - p-value = 0.01615 .........................<- -max = p-value = 0.1686
-#PowerSoil_Precipitation_Sand - p-value = 0.3158
-#PowerSoil_Precipitation_Kaolin - p-value = 0.7836
-#Pedersen_Magnetic_Beads_Bentonite - p-value = 0.279
-#Pedersen_Magnetic_Beads_Sand - p-value = 0.556
-#Pedersen_Magnetic_Beads_Kaolin - p-value = 0.9179
-#Pedersen_Precipitation_Bentonite - p-value = 0.1548
-#Pedersen_Precipitation_Sand - p-value = 0.2841
-#Pedersen_Precipitation_Kaolin - p-value = 0.3158
-#Lever_Magnetic_Beads_Bentonite - cannot be calculated = 0
-#Lever_Magnetic_Beads_Sand - p-value = 0.3184
-#Lever_Magnetic_Beads_Kaolin - p-value = 0.4174
-#Lever_Precipitation_Bentonite - p-value = 0.5299
-#Lever_Precipitation_Sand - p-value = 0.1336
-#Lever_Precipitation_Kaolin - p-value = 0.7395
-#Direito_Magnetic_Beads_Bentonite -  p-value = 0.9825
-#Direito_Magnetic_Beads_Sand - p-value = 0.1129
-#Direito_Magnetic_Beads_Kaolin - p-value = 0.9172
-#Direito_Precipitation_Bentonite - p-value = 0.8398
-#Direito_Precipitation_Sand - p-value = 0.6432
-#Direito_Precipitation_Kaolin - p-value = 0.1537
-
-#______________________________________________________________________________#
-# We can choose to remove or keep the two outliers in the data table before proceeding
-
-#df <- df[-c(27,42),]
-
 ############################### STATISTICS #####################################
-################################################################################
-
-# We continue without removing outliers
 
 ########################## Scheirer–Ray–Hare Test ##############################
 ########################## non-parametric analysis #############################
@@ -105,7 +37,7 @@ ggplot(df, aes(Buffer, Value, fill=Extraction)) + geom_boxplot() + facet_grid(~M
         axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0),size=12),
         panel.background = element_rect(fill = "white"))
 
-## Sheier-Ray-Hare is only a two way test so we break the table per mineral
+### Sheier-Ray-Hare is only a two way test so we break the table per mineral
 
 ben <- df[df$Mineral == 'Bentonite', ]
 san <- df[df$Mineral == 'Sand', ]
@@ -115,7 +47,6 @@ kao <- df[df$Mineral == 'Kaolin', ]
 
 scheirerRayHare(Value ~ Buffer*Extraction, data = ben, type = 2)
 
-# WITH OUTLIERS (new data 7/7/23)
 # DV:  Value 
 # Observations:  44 
 # D:  0.9997181 
@@ -133,7 +64,6 @@ ggplot(ben, aes(Buffer, Value, fill=Extraction)) + geom_boxplot() + theme_bw()
 
 scheirerRayHare(Value ~ Buffer*Extraction, data = kao, type = 2)
 
-# WITH OUTLIERS (new data 7/7/23)
 # DV:  Value 
 # Observations:  50 
 # D:  0.9920768 
@@ -151,7 +81,6 @@ ggplot(kao, aes(Buffer, Value, fill=Extraction)) + geom_boxplot() + theme_bw()
 
 scheirerRayHare(Value ~ Buffer*Extraction, data = san, type = 2)
 
-# WITH OUTLIERS (new data 7/7/23)
 # DV:  Value 
 # Observations:  51 
 # D:  1 
@@ -165,17 +94,15 @@ scheirerRayHare(Value ~ Buffer*Extraction, data = san, type = 2)
 
 ggplot(san, aes(Buffer, Value, fill=Extraction)) + geom_boxplot() + theme_bw()
 
-#______________________________________________________________________________#
-
-### we see that there a significant effect of buffer for all three minerals and no effect of extraction type
-### we can therefore follow up with a post-hoc test for the buffer
+### We see that there a significant effect of buffer for all three minerals and no effect of extraction type
+### We therefore follow up with a post-hoc test for the buffer effect
 
 ############################ POST-HOC TESTS ####################################
 ################################################################################
 
 #____DUNN-TEST-BENTONITE_______________________________________________________#
 
-## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically)
+## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically - see df for labels)
 
 ben$Buffer = factor(ben$Buffer,
                     levels=c("A", "B", "C", "D","E"))
@@ -186,7 +113,7 @@ levels(ben$Buffer)
 
 dt = dunnTest(Value ~ Buffer,
               data=ben,
-              method="holm")      # here we choose "holm" to adjust p-values for multiple comparisons
+              method="holm")
 dt
 
 ## Compact letter display
@@ -197,7 +124,6 @@ cldList(P.adj ~ Comparison,
         data = pt,
         threshold = 0.05)
 
-# WITH OUTLIERS - ordered
 # Group Letter MonoLetter
 # 1     A      a        a  
 # 2     B      a        a  
@@ -207,7 +133,7 @@ cldList(P.adj ~ Comparison,
 
 #____DUNN-TEST-KAOLIN__________________________________________________________#
 
-## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically)
+## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically - see df for labels)
 
 kao$Buffer = factor(kao$Buffer,
                     levels=c("A", "B", "C", "D","E"))
@@ -218,7 +144,7 @@ levels(kao$Buffer)
 
 dt = dunnTest(Value ~ Buffer,
               data=kao,
-              method="holm")      # here we choose "holm" to adjust p-values for multiple comparisons
+              method="holm")
 dt
 
 ## Compact letter display
@@ -239,7 +165,7 @@ cldList(P.adj ~ Comparison,
 
 #____DUNN-TEST-SAND____________________________________________________________#
 
-## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically)
+## Order groups by median (here we use letters for buffers as R otherwise orders them alphabetically - see df for labels)
 
 san$Buffer = factor(san$Buffer,
                     levels=c("A", "B", "C", "D","E"))
@@ -250,7 +176,7 @@ levels(san$Buffer)
 
 dt = dunnTest(Value ~ Buffer,
               data=san,
-              method="holm")      # here we choose "holm" to adjust p-values for multiple comparisons
+              method="holm")
 dt
 
 ## Compact letter display
