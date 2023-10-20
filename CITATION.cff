@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this data and associated scripts, please cite it as below."
+authors:
+- family-names: "Gande"
+  given-names: "Darjan"
+  orcid: "https://orcid.org/0009-0004-5895-2976"
+title: "Supporting data and scripts - Recovering short DNA fragments from minerals and marine sediments: a comparative study"
+version: 1.0.0
+doi: 10.5281/zenodo.1234
+date-released: 2023-10-20
+url: "https://github.com/darjang09/Gande_et_al_2023_DNA_extractions"
