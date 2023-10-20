@@ -15,7 +15,7 @@ library(scales)
 library(graphics)
 
 ## Load the data
-df <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/merged_smear_April23.csv", sep=";", header=T, stringsAsFactors = T, check.names = FALSE)
+df <- read.table("merged_smear_April23.csv", sep=";", header=T, stringsAsFactors = T, check.names = FALSE)
 
 ## Rename range names
 df <- df %>% mutate(Range = gsub(" bp to ", "-", Range))
@@ -24,7 +24,6 @@ df <- df %>% mutate(Range = gsub(" bp to ", "-", Range))
 
 ### Subset columns
 df <- df %>% select(`Sample ID`, Range, `nmole/L`) # for molarity
-#df <- df %>% select(`Sample ID`, Range, `ng/uL`) # if interested also for concentrations
 
 ### Melt the table
 data.perc <- reshape(df, idvar = "Range", timevar = "Sample ID", direction = "wide")
@@ -36,7 +35,6 @@ data.perc <- data.perc[row.names(data.perc) != "157-500 bp", , drop = FALSE]
 
 ## Trim names
 names(data.perc) = gsub(pattern = "*nmole/L.", replacement = "", x = names(data.perc)) # for molarity
-#names(data.perc) = gsub(pattern = "*ng/uL.", replacement = "", x = names(data.perc)) # if interested also for concentrations
 
 ## Transform values back to numerical
 data.perc <- mutate_all(data.perc, function(x) as.numeric(as.character(x)))
@@ -67,7 +65,7 @@ sedlist <- list(
   LIB_BLANK = c('Lib_b_1','Lib_b_2','Lib_b_3','Lib_b_4')
 )
 
-##################### Plotting percentage molarity brackets ####################
+##################### Plotting relative molarity #########################
 
 ## define color blind friendly pallete
 
@@ -151,11 +149,11 @@ p2 <- ggplot(data.absolute, aes(x=factor(Var2, level = level_order), y=value, fi
   facet_grid(. ~ factor(Sediment, level = sedlevel),  scales = "free", space = "free")
 
 p2
+                        
 #########################################################################################
-
 ############################ PLOTTING THE RATIO #########################################
 
-ratio <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/FA_molarity_ratios_25-157-500.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
+ratio <- read.table("FA_molarity_ratios_25-157-500.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
 
 ## facet them per sediment type
 
@@ -165,7 +163,7 @@ level_order <- c('400', '412', '405','417','401','413','406','418','402','414','
 p3 <- ggplot(ratio, aes(x=factor(name, level = level_order), y=ratio, shape=Extraction, fill=Buffer, group=name)) +
   geom_point(size = 6) + ylim(0,4) +
   geom_linerange(aes(x=factor(name, level = level_order), ymax=ratio, ymin=0, group=name), position = "identity") +
-  scale_shape_manual(values = c(21, 22, 23), breaks=c('Magnetic Beads', 'Precipitation', 'Blank') ) +
+  scale_shape_manual(values = c(21, 22, 23), breaks=c('Magnetic Beads', 'Precipitation', 'Blank')) +
   scale_fill_manual(
     values = c("red", "blue", "black"),
     breaks=c('Rohland', 'Direito', 'Blank'),
