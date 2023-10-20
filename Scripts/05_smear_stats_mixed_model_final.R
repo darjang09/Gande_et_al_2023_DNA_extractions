@@ -19,20 +19,14 @@ library("performance")
 library("see")
 
 # Import the data
-df <- read.table("../../All_the_data/06_Results/01_extraction_optimization/Extractions_2022/Statistics/smear_percentage_and_absolute.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
+df <- read.table("smear_percentage_and_absolute.txt", sep="\t", header=T, stringsAsFactors = T, check.names = FALSE)
 
 # Drop failed samples
 dropped <- c('405', '419', '420', '421')
 df <- subset(df, !Sample_ID %in% dropped)
 
-## Mixed linear model here gives us the option to use sediment_ID as a random effect (pseudoreplication) as we do not have
-## enough observations in a single sediment cluster. We thus use it as a random effect to increase observations for
-## statistical comparison between the buffers while we disregard the method!
-## Disregarding the method however, undermines the potential true effect of the method.
-## However, building the model with breaking down the data on buffer and method causes too few observations for certain clusters
-
 ################################################################################
-###################### TESTING WITH RELATIVE VALUES ############################
+############ GENERAL LINEAR MIXED EFFECTS MODELS WITH RELATIVE VALUES ##########
 
 ### We first subset the data per range and test each range separately
 
@@ -54,7 +48,7 @@ posthoc.1 <- pairs(emmeans_model.1, adjust = "tukey")
 print(posthoc.1)
 
 #contrast          estimate     SE   df t.ratio p.value
-#Direito - Rohland   -0.147 0.0317 10.1  -4.634  0.0009 <------<------<------
+#Direito - Rohland   -0.147 0.0317 10.1  -4.634  0.0009
 
 ### Build model 2
 
@@ -93,7 +87,7 @@ posthoc.4 <- pairs(emmeans_model.4, adjust = "tukey")
 print(posthoc.4)
 
 #contrast          estimate    SE   df t.ratio p.value
-#Direito - Rohland   0.0615 0.018 10.1   3.421  0.0064 <------<------<-------
+#Direito - Rohland   0.0615 0.018 10.1   3.421  0.0064
 
 ### Build model 5
 
@@ -106,7 +100,7 @@ posthoc.5 <- pairs(emmeans_model.5, adjust = "tukey")
 print(posthoc.5)
 
 #contrast          estimate     SE   df t.ratio p.value
-#Direito - Rohland   0.0418 0.0116 10.1   3.605  0.0047 <------<------<------
+#Direito - Rohland   0.0418 0.0116 10.1   3.605  0.0047
 
 ### Build a model 6
 
@@ -119,37 +113,28 @@ posthoc.6 <- pairs(emmeans_model.6, adjust = "tukey")
 print(posthoc.6)
 
 #contrast          estimate     SE   df t.ratio p.value
-#Direito - Rohland   0.0484 0.0162 10.1   2.995  0.0133 <-------<-------<-------
+#Direito - Rohland   0.0484 0.0162 10.1   2.995  0.0133
 
 ################################################################################
+### Check residuals for all models
 
-### Checking the residuals for all models
-
-# Create a list of your models
+# Create a list
 model_list <- list(model.1, model.2, model.3, model.4, model.5, model.6)
-
-# Set up the layout for the plots
 par(mfrow = c(2, 3))
 
-# Iterate through the list of models and plot residuals vs. fitted values
 for (i in 1:length(model_list)) {
   model <- model_list[[i]]
   residuals <- residuals(model)
   fitted <- fitted(model)
-  
-  # Create a new plot
+
+# Plot
   plot(fitted, residuals,
        xlab = "Fitted values",
        ylab = "Residuals",
        main = paste("Model", i))
 }
 
-# Reset the par settings to default
-par(mfrow = c(1, 1))
-
-### Four out of six ranges show significant difference between the two buffers in terms of relative molarity
-
-### Lets plot and mark significant ranges
+#### Lets plot and add p-values for each range 
 
 p1 <- ggplot(df, aes(x=Buffer, y=Percent, group = Sediment_ID, color = Sediment_ID)) + 
   geom_smooth(method = lm, se = FALSE) +
@@ -261,37 +246,29 @@ posthoc.6 <- pairs(emmeans_model.6, adjust = "tukey")
 print(posthoc.6)
 
 #contrast          estimate    SE   df t.ratio p.value
-#Direito - Rohland     1.46 0.564 10.4   2.584  0.0264 <-------<-------<--------   
+#Direito - Rohland     1.46 0.564 10.4   2.584  0.0264  
 
 ################################################################################
 
-### Checking the residuals for all models
+### Check residuals for all models
 
-# Create a list of your models
+# Create a list
 model_list <- list(model.1, model.2, model.3, model.4, model.5, model.6)
-
-# Set up the layout for the plots
 par(mfrow = c(2, 3))
 
-# Iterate through the list of models and plot residuals vs. fitted values
 for (i in 1:length(model_list)) {
   model <- model_list[[i]]
   residuals <- residuals(model)
   fitted <- fitted(model)
   
-  # Create a new plot
+# Plot
   plot(fitted, residuals,
        xlab = "Fitted values",
        ylab = "Residuals",
        main = paste("Model", i))
 }
 
-# Reset the par settings to default
-par(mfrow = c(1, 1))
-
-### one out of six ranges show significant difference between the two buffers in terms of absoulte molarity different
-
-## Plot
+#### Lets plot and add p-values for each range
 
 p2 <- ggplot(df, aes(x=Buffer, y=Absolute, group = Sediment_ID, color = Sediment_ID)) + 
   geom_smooth(method = lm, se = FALSE) +
