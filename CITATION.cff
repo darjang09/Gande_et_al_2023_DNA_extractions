@@ -1,28 +1,37 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+message: "If you use this data and associated scripts, please cite it as below."
 authors:
-  - family-names: "Lisa"
-    given-names: "Mona"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-  - family-names: "Bot"
-    given-names: "Hew"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-title: "My Research Software"
-version: 2.0.4
-doi: 10.5281/zenodo.1234
-date-released: 2017-12-18
-url: "https://github.com/github-linguist/linguist"
+  - family-names: "Gande"
+    given-names: "Darjan"
+    orcid: "https://orcid.org/0009-0004-5895-2976"
+  - family-names: "Hassenrück"
+    given-names: "Christiane"
+    orcid: "https://orcid.org/0000-0003-1909-1726"
+  - family-names: "Richter-Heitmann"
+    given-names: "Tim"
+    orcid: "https://orcid.org/0000-0002-2791-7252"
+  - family-names: "Zure"
+    given-names: "Marina"
+title: "Supporting data and scripts - Recovering short DNA fragments from minerals and marine sediments: a comparative study"
+version: 3.0
+date-released: 2023-10-20
+url: "https://github.com/darjang09/aeDNA_extractions_study"
 preferred-citation:
   type: dataset
   authors:
-    - family-names: "Lisa"
-      given-names: "Mona"
-      orcid: "https://orcid.org/0000-0000-0000-0000"
-    - family-names: "Bot"
-      given-names: "Hew"
-      orcid: "https://orcid.org/0000-0000-0000-0000"
-  title: "My Research Software Dataset"
-  version: "2.0.4"
-  url: "https://github.com/github-linguist/linguist"
-  year: 2017
-  release-date: 2017-12-18
+    - family-names: "Gande"
+      given-names: "Darjan"
+      orcid: "https://orcid.org/0009-0004-5895-2976"
+    - family-names: "Hassenrück"
+      given-names: "Christiane"
+      orcid: "https://orcid.org/0000-0003-1909-1726"
+    - family-names: "Richter-Heitmann"
+      given-names: "Tim"
+      orcid: "https://orcid.org/0000-0002-2791-7252"
+    - family-names: "Zure"
+      given-names: "Marina"
+  title: "Supporting data and scripts - Recovering short DNA fragments from minerals and marine sediments: a comparative study"
+  version: "3.0"
+  url: "https://github.com/darjang09/aeDNA_extractions_study"
+  year: 2023
+  release-date: 2023-10-20
