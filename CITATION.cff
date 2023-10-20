@@ -6,6 +6,6 @@ authors:
   orcid: "https://orcid.org/0009-0004-5895-2976"
 title: "Supporting data and scripts - Recovering short DNA fragments from minerals and marine sediments: a comparative study"
 version: 1.0.0
-doi: 10.5281/zenodo.1234
+doi: 10.5281/zenodo.10026286 
 date-released: 2023-10-20
-url: "https://github.com/darjang09/Gande_et_al_2023_DNA_extractions"
+url: "https://github.com/darjang09/aeDNA_extractions_study/tree/v1.0"
