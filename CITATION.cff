@@ -15,7 +15,7 @@ version: 3.0
 date-released: 2023-10-20
 url: "https://github.com/darjang09/aeDNA_extractions_study"
 preferred-citation:
-  type: dataset
+  type: data
   authors:
   - family-names: "Gande"
   given-names: "Darjan"
