@@ -20,7 +20,21 @@ medians <- tapply(df$Value, list(df$Mineral, df$Name, df$Extraction), median)
 
 medians_table <- as.data.frame(round(medians, 2))
 
-# calculate Interquartile range
+# Calculate Q3 and Q1
+
+# Calculate upper quartile (Q3)
+upper_quartile <- tapply(df$Value, list(df$Mineral, df$Name, df$Extraction), function(x) quantile(x, 0.75))
+
+# Calculate lower quartile (Q1)
+lower_quartile <- tapply(df$Value, list(df$Mineral, df$Name, df$Extraction), function(x) quantile(x, 0.25))
+
+# Combine the results into a data frame
+quartile_table <- data.frame(
+  Upper_Quartile = round(upper_quartile, 2),
+  Lower_Quartile = round(lower_quartile, 2)
+)
+
+# Calculate Interquartile range (IQR)
 
 iqr <- tapply(df$Value, list(df$Mineral, df$Name, df$Extraction), IQR)
 
