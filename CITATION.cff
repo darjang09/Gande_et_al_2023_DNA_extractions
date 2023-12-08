@@ -13,8 +13,8 @@ authors:
   - family-names: "Zure"
     given-names: "Marina"
 title: "Supporting data and scripts - Recovering short DNA fragments from minerals and marine sediments: a comparative study"
-version: 3.0
-date-released: 2023-10-20
+version: 4.0
+date-released: 2023-12-09
 url: "https://github.com/darjang09/aeDNA_extractions_study"
 preferred-citation:
   type: dataset
@@ -31,7 +31,7 @@ preferred-citation:
     - family-names: "Zure"
       given-names: "Marina"
   title: "Supporting data and scripts - Recovering short DNA fragments from minerals and marine sediments: a comparative study"
-  version: "3.0"
+  version: "4.0"
   url: "https://github.com/darjang09/aeDNA_extractions_study"
   year: 2023
-  release-date: 2023-10-20
+  release-date: 2023-12-09
